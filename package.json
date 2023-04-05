@@ -13,6 +13,11 @@
     "scryfall",
     "random"
   ],
+  "homepage": "https://github.com/raphaelSiz/random-mtg-deck#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raphaelSiz/random-mtg-deck"
+  },
   "author": "raphaelSiz",
   "license": "MIT",
   "dependencies": {
