@@ -1,27 +1,14 @@
 import axios from 'axios';
+import encodeUrl from 'encodeurl';
 import encode from 'encodeurl';
 import fs from 'node:fs'
-const allSets = ["10E","M13","M15","ORI","M19","M20","M21","LEG","ICE","HML","ALL","MIR","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG",
-"MRD","DST","5DN","CHK","BOK","SOK","RAV","GPT","DIS","CSP",
-"TSP","TSB","PLC","FUT","LRW","MOR","SHM","EVE","ALA","CON",
-"ARB","ZEN","WWK","ROE","SOM","MBS","NPH","ISD","DKA","AVR",
-"RTR","GTC","DGM","THS","BNG","JOU","KTK","FRF","DTK","BFZ",
-"OGW","SOI","EMN","KLD","AER","AKH","HOU","XLN","RIX","DOM",
-"GRN","RNA","WAR","ELD","THB","IKO","ZNR","KHM","STX","AFR",
-"MID","VOW","NEO","SNC","DMU","BRO","ONE","MOM","MH1","MH2",
-"P3K","CHR","ATH","DPA","MD1","MB1","TSR","DMR","EVG","DDC",
-"DDE","DDL","DDN","DDQ","DDS","DDT","DDU","DRB","V10","V11",
-"V13","V14","V15","V16","V17","H09","PD2","PD3","MMA","MM2",
-"EMA","MM3","IMA","A25","UMA","2XM","2X2","ORI","MP2","BRR",
-"JMP","J22","SLD","SLX","BOT","HOP","PC2","PCA","ARC","E01",
-"CMD","CM1","C13","C14","C15","C16","CMA","C17","CM2","C18",
-"C19","C20","ZNC","CMR","KHC","C21","AFC","MIC","VOC","NEC",
-"NCC","CLB","40K","BRC","CNS","CN2","BBD","UGL","UNH","UST",
-"UND","UNF"]
+const allSets = ["10E","M13","M15","ORI","M19","M20","M21","LEG","ICE","HML","ALL","MIR","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG","MRD","DST","5DN","CHK","BOK","SOK","RAV","GPT","DIS","CSP","TSP","TSB","PLC","FUT","LRW","MOR","SHM","EVE","ALA","CON","ARB","ZEN","WWK","ROE","SOM","MBS","NPH","ISD","DKA","AVR","RTR","GTC","DGM","THS","BNG","JOU","KTK","FRF","DTK","BFZ","OGW","SOI","EMN","KLD","AER","AKH","HOU","XLN","RIX","DOM","GRN","RNA","WAR","ELD","THB","IKO","ZNR","KHM","STX","AFR","MID","VOW","NEO","SNC","DMU","BRO","ONE","MOM","MH1","MH2","P3K","CHR","ATH","DPA","MD1","MB1","TSR","DMR","EVG","DDC","DDE","DDL","DDN","DDQ","DDS","DDT","DDU","DRB","V10","V11","V13","V14","V15","V16","V17","H09","PD2","PD3","MMA","MM2","EMA","MM3","IMA","A25","UMA","2XM","2X2","ORI","MP2","BRR","JMP","J22","SLD","SLX","BOT","HOP","PC2","PCA","ARC","E01","CMD","CM1","C13","C14","C15","C16","CMA","C17","CM2","C18","C19","C20","ZNC","CMR","KHC","C21","AFC","MIC","VOC","NEC","NCC","CLB","40K","BRC","CNS","CN2","BBD","UGL","UNH","UST","UND","UNF"]
 const sortMethods = ["name","rarity","color","usd","tix","eur","cmc","power","toughness","edhrec","penny","artist","review"];
 const dirs = ["auto","asc","desc"];
-
-
+const indexed = ["10E","M13","M15","ORI","M19","M20","M21","LEG","ICE","HML","ALL","MIR","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG","MRD","DST","5DN","CHK","BOK","SOK","RAV","GPT","DIS","CSP","TSP","TSB","PLC","FUT","LRW","MOR","SHM","EVE","ALA","CON","ARB","ZEN","WWK","ROE","SOM","MBS","NPH","ISD","DKA","AVR","RTR","GTC","DGM","THS","BNG","JOU","KTK","FRF","DTK","BFZ","OGW","SOI","EMN","KLD","AER","AKH","HOU","XLN","RIX","DOM","GRN","RNA","WAR","ELD","THB","IKO","ZNR","KHM","STX","AFR","MID","VOW","NEO","SNC","DMU","BRO","ONE","MH1","MH2","P3K","CHR","ATH","DPA","MD1","MB1","TSR","DMR","EVG","DDC","DDE","DDL","DDN","DDQ","DDS","DDT","DDU","DRB","V10","V11","V13","V14","V15","V16","V17","H09","PD2","PD3","MMA","MM2","EMA","MM3","IMA","A25","UMA","2XM","2X2","ORI","MP2","BRR","JMP","J22","SLD","SLX","BOT","HOP","PC2","PCA","ARC","E01","CMD","CM1","C13","C14","C15","C16","CMA","C17","CM2","C18","C19","C20","ZNC","CMR","KHC","C21","AFC","MIC","VOC","NEC","NCC","CLB","40K","BRC","CNS","CN2","BBD","UGL","UNH","UST","UND","UNF"];
+const toIndex = allSets.filter(x=> !indexed.includes(x) && x != "MOM");
+const setIndex = {}
+loadIndex()
 export const Commander = async function({colors="wubrg",illegal=false,sets,random=true}) {
     let validSets = (sets && Array.isArray(sets) && sets.length) ? sets : [...allSets];
     let set = validSets[Math.floor(Math.random()*validSets.length)];
@@ -204,4 +191,52 @@ function simplify(cards) {
         return simple;
     }
     return {id: cards.id,name: cards.name};
+}
+fs.appendFileSync('./indexes/indexLog.txt',Date.now().toString())
+//keep this interval and code for future set releases (can comment them out)
+//let indexInterval = setInterval(indexSet,250);
+async function indexSet() {
+    if (toIndex.length < 1) return //clearInterval(indexInterval);
+    let set = toIndex[Math.floor(Math.random()*toIndex.length)];
+    let cards = []
+    let more = true;
+    let page = 1;
+    do {
+        let url = `https://api.scryfall.com/cards/search?q=set:${set}`
+        try {
+            let data = await axios.get(`${encodeUrl(url)}&page=${page}`);
+            let cardData = data.data.data; //lol, almost changed the "data" variable name but this was funny
+            for (let card of cardData) {
+                let type;
+                if (card.type_line) type = card.type_line.toLowerCase();
+                else {
+                    if (card.layout && card.layout == 'reversible_card') {
+                        type = card.card_faces[0].type_line + " / " + card.card_faces[1].type_line
+                    }
+                    continue;
+                }
+                let commander = (type.includes("legendary") && type.includes("creature")) || (card.oracle_text && card.oracle_text.includes("can be your commander"));
+                let legalities = [];
+                for (let format in card.legalities) if (card.legalities[format] == "legal") legalities.push(format);
+                cards.push({name: card.name, id: card.id, ci: card.color_identity || card.colors, commander,legalities});
+            }
+            page ++;
+            more = JSON.parse(data.data.has_more)
+        } catch (e) {
+            console.log(e)
+        }
+        delay(15)
+    } while (more)
+    fs.writeFile(`./indexes/${set}.json`,JSON.stringify(cards),()=>{
+        console.log("indexed " + set)
+        setIndex[set] = cards;
+        indexed.push(set);
+        toIndex.splice(toIndex.indexOf(set),1)
+    })
+    fs.appendFileSync('./indexes/indexLog.txt',`\n${set}`)   
+}
+function loadIndex() {
+    for (let set of indexed) {
+        if (!toIndex.includes(set)) setIndex[set] = JSON.parse(fs.readFileSync(`./indexes/${set}.json`).toString())
+    }
 }
