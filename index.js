@@ -12,7 +12,12 @@ const allSets = ["10E","M13","M15","ORI","M19","M20","M21","LEG","ICE","HML","AL
 "P3K","CHR","ATH","DPA","MD1","MB1","TSR","DMR","EVG","DDC",
 "DDE","DDL","DDN","DDQ","DDS","DDT","DDU","DRB","V10","V11",
 "V13","V14","V15","V16","V17","H09","PD2","PD3","MMA","MM2",
-"EMA","MM3","IMA","A25","UMA","2XM","2X2","w10","w11","w12","w14","w15","ORI","w16","w17","EXP","MPS","MP2","MED","STA","BRR","JMP","J22","SLD","SLX","BOT","HOP","PC2","PCA","ARC","E01","CMD","CM1","C13","C14","C15","C16","CMA","C17","CM2","C18","C19","C20","ZNC","CMR","KHC","C21","AFC","MIC","VOC","NEC","NCC","CLB","40K","BRC","CNS","CN2","E02","BBD","CED","UGL","UNH","UST","UND","UNF"]
+"EMA","MM3","IMA","A25","UMA","2XM","2X2","ORI","MP2","BRR",
+"JMP","J22","SLD","SLX","BOT","HOP","PC2","PCA","ARC","E01",
+"CMD","CM1","C13","C14","C15","C16","CMA","C17","CM2","C18",
+"C19","C20","ZNC","CMR","KHC","C21","AFC","MIC","VOC","NEC",
+"NCC","CLB","40K","BRC","CNS","CN2","BBD","UGL","UNH","UST",
+"UND","UNF"]
 const sortMethods = ["name","rarity","color","usd","tix","eur","cmc","power","toughness","edhrec","penny","artist","review"];
 const dirs = ["auto","asc","desc"];
 
