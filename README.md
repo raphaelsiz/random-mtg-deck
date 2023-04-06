@@ -1,10 +1,11 @@
 usage:
 ```js
 import {Commander} from 'random-mtg-deck'
-let deck = Commander({})
-deck.exportFile("./commander.cod","cod")
-deck.exportFile("./commander.json")
-let stringOfDeck = deck.exportString() //optional "cod" for cockatrice xml, otherwise it's json
+Commander({}).then(deck=>{
+    deck.exportFile("./commander.cod","cod")
+    deck.exportFile("./commander.json")
+    let stringOfDeck = deck.exportString() //optional "cod" for cockatrice xml, otherwise it's json
+})
 ```
 Parameters for `Commander` (all optional, but if you don't pass in any you still need to pass in an empty object):
 * `random`: defaults to `true`. Set to `false` if you want your deck to have an appropriate amount of lands. Will eventually add a way to actually make sure your mana base is covered with said lands (this will also be optional).
