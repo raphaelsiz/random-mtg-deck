@@ -6,7 +6,7 @@ const allSets = ["10E","M13","M15","ORI","M19","M20","M21","LEG","ICE","HML","AL
 const sortMethods = ["name","rarity","color","usd","tix","eur","cmc","power","toughness","edhrec","penny","artist","review"];
 const dirs = ["auto","asc","desc"];
 const indexed = ["10E","M13","M15","ORI","M19","M20","M21","LEG","ICE","HML","ALL","MIR","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG","MRD","DST","5DN","CHK","BOK","SOK","RAV","GPT","DIS","CSP","TSP","TSB","PLC","FUT","LRW","MOR","SHM","EVE","ALA","CON","ARB","ZEN","WWK","ROE","SOM","MBS","NPH","ISD","DKA","AVR","RTR","GTC","DGM","THS","BNG","JOU","KTK","FRF","DTK","BFZ","OGW","SOI","EMN","KLD","AER","AKH","HOU","XLN","RIX","DOM","GRN","RNA","WAR","ELD","THB","IKO","ZNR","KHM","STX","AFR","MID","VOW","NEO","SNC","DMU","BRO","ONE","MH1","MH2","P3K","CHR","ATH","DPA","MD1","MB1","TSR","DMR","EVG","DDC","DDE","DDL","DDN","DDQ","DDS","DDT","DDU","DRB","V10","V11","V13","V14","V15","V16","V17","H09","PD2","PD3","MMA","MM2","EMA","MM3","IMA","A25","UMA","2XM","2X2","ORI","MP2","BRR","JMP","J22","SLD","SLX","BOT","HOP","PC2","PCA","ARC","E01","CMD","CM1","C13","C14","C15","C16","CMA","C17","CM2","C18","C19","C20","ZNC","CMR","KHC","C21","AFC","MIC","VOC","NEC","NCC","CLB","40K","BRC","CNS","CN2","BBD","UGL","UNH","UST","UND","UNF"];
-const toIndex = allSets.filter(x=> !indexed.includes(x) && x != "MOM");
+const toIndex = ["CON"]//allSets.filter(x=> !indexed.includes(x) && x != "MOM");
 const setIndex = {}
 loadIndex()
 export const Commander = async function({colors="wubrg",illegal=false,sets,random=true}) {
@@ -237,6 +237,7 @@ async function indexSet() {
 }
 function loadIndex() {
     for (let set of indexed) {
-        if (!toIndex.includes(set)) setIndex[set] = JSON.parse(fs.readFileSync(`./indexes/${set}.json`).toString())
+        if (!toIndex.includes(set) && set != "CON") setIndex[set] = JSON.parse(fs.readFileSync(`./indexes/${set}.json`).toString())
     }
+    setIndex.CON = JSON.parse(fs.readFileSync(`./indexes/CON-set.json`).toString())
 }
