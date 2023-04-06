@@ -118,7 +118,7 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
     } while (!commander)
 }
 async function callCommander (colors,set) {
-    let commanderUrl =`https://api.scryfall.com/cards/search?q=c<=${colors} is:commander set:${set}`
+    let commanderUrl =`https://api.scryfall.com/cards/search?q=c<=${colors} is:commander f:commander f:vintage set:${set}`
     let url = encode(commanderUrl) + `&order=${sortMethods[Math.floor(Math.random()*sortMethods.length)]}&dir=${dirs[Math.floor(Math.random()*3)]}`
     try {
         let json = await axios.get(url)
@@ -132,7 +132,7 @@ async function callCommander (colors,set) {
 }
 async function callCommanderCards(cid,sets) {
     let setString = sets? ` (${sets.join(' or ')})` : ''
-    let queryUrl = `https://api.scryfall.com/cards/search?q=id<=${cid} f:commander${setString}`
+    let queryUrl = `https://api.scryfall.com/cards/search?q=id<=${cid} f:vintage f:commander${setString}`
     try {
         let json = await axios.get(encode(queryUrl) + `&order=${sortMethods[Math.floor(Math.random()*sortMethods.length)]}&dir=${dirs[Math.floor(Math.random()*3)]}`)
         return json.data.data;
