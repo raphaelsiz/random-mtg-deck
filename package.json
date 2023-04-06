@@ -1,6 +1,6 @@
 {
   "name": "random-mtg-deck",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generates a semi-random deck of Magic: the Gathering cards (all fitting parameters)",
   "main": "index.js",
   "type": "module",
