@@ -2,10 +2,9 @@ import axios from 'axios';
 import encode from 'encodeurl';
 import fs from 'node:fs'
 const allSets = ["10E","M13","M15","ORI","M19","M20","M21","LEG","ICE","HML","ALL","MIR","WTH","TMP","STH","EXO","USG","ULG","UDS","MMQ","NEM","PCY","INV","PLS","APC","ODY","TOR","JUD","ONS","LGN","SCG",
-"MRD","DST","5DN","CHK","BOK","SOK","RAV","GPT","DIS","CSP","TSP","TSB","PLC","FUT","LRW","MOR","SHM","EVE","ALA","CON","ARB","ZEN","WWK","ROE","SOM","MBS","NPH","ISD","DKA","AVR","RTR","GTC","DGM","THS","BNG","JOU","KTK","FRF","DTK","BFZ","OGW","SOI","EMN","KLD","AER","AKH","HOU","XLN","RIX","DOM","GRN","RNA","WAR","ELD","THB","IKO","ZNR","KHM","STX","AFR","MID","VOW","NEO","SNC","DMU","BRO","ONE"]
+"MRD","DST","5DN","CHK","BOK","SOK","RAV","GPT","DIS","CSP","TSP","TSB","PLC","FUT","LRW","MOR","SHM","EVE","ALA","CON","ARB","ZEN","WWK","ROE","SOM","MBS","NPH","ISD","DKA","AVR","RTR","GTC","DGM","THS","BNG","JOU","KTK","FRF","DTK","BFZ","OGW","SOI","EMN","KLD","AER","AKH","HOU","XLN","RIX","DOM","GRN","RNA","WAR","ELD","THB","IKO","ZNR","KHM","STX","AFR","MID","VOW","NEO","SNC","DMU","BRO","ONE","MOM"]
 const sortMethods = ["name","rarity","color","usd","tix","eur","cmc","power","toughness","edhrec","penny","artist","review"];
 const dirs = ["auto","asc","desc"];
-if (Date.now() >= 1682117640000) allSets.push("MOM")
 
 
 export const Commander = async function({colors="wubrg",illegal=false,sets,random=true}) {
