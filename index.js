@@ -23,7 +23,7 @@ const indexed = ["2XM","NEM","XLN","WWK","AER","HML","DTK","V11","BRO","P3K","C1
 "V12","VIS","w16","w17","CED"];
 const toIndex = allPaperSets.filter(x=> !indexed.includes(x) && x != "MOM");
 const setIndex = {}
-//loadIndex()
+loadIndex()
 export const Commander = async function({colors="wubrg",illegal=false,sets,random=true}) {
     let validSets = (sets && Array.isArray(sets) && sets.length) ? sets : [...validCommanderSets];
     let set = validSets[Math.floor(Math.random()*validSets.length)];
