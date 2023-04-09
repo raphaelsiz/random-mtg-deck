@@ -247,7 +247,7 @@ function isLand(card) {
 }
 fs.appendFileSync('./indexes/indexLog.txt',`\n${Date.now().toString()}`)
 //keep this interval and code for future set releases (can comment them out)
-let indexInterval = setInterval(indexSet,250);
+/*let indexInterval = setInterval(indexSet,250);
 async function indexSet() {
     if (toIndex.length < 1) return clearInterval(indexInterval);
     let set = toIndex[Math.floor(Math.random()*toIndex.length)];
@@ -288,7 +288,7 @@ async function indexSet() {
         toIndex.splice(toIndex.indexOf(set),1)
     })
     fs.appendFileSync('./indexes/indexLog.txt',`\n${set}`)   
-}
+}*/
 function loadIndex() {
     for (let set of indexed) {
         if (!toIndex.includes(set) && set != "CON") setIndex[set] = JSON.parse(fs.readFileSync(`./indexes/${set}.json`).toString())
