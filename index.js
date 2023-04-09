@@ -47,8 +47,8 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
                 return {commander,cards,exportFile}
             }
             else {
-                let cardsData = await getCommanderNonLands(cid,sets);
-                let landsData = await getCommanderLands(cid,sets);
+                let cardsData = await getCommanderNonLands(cid,sets || allPaperSets);
+                let landsData = await getCommanderLands(cid,sets || allPaperSets);
                 if (!cardsData) return Error("Couldn't find enough cards. Please lower your standards.");
                 if (!landsData) return Error("Couldn't find enough lands. Please lower your standards.");
                 let nonLands = simplify(cardsData);
@@ -135,6 +135,9 @@ async function getCommander (colors,set) {
     if (!validCommanderSets.includes(set)) return false;
     if (!setIndex[set]) return await callCommander(colors,set);
     let validCommanders = setIndex[set].filter(x=>x.commander);
+    validCommanders.map(c=>{
+        c.colors = c.ci
+    })
     return validCommanders;
 }
 async function callCommanderCards(cid,sets) {
