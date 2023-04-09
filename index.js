@@ -131,6 +131,12 @@ async function callCommander (colors,set) {
         return false;
     }//console.log(url)
 }
+async function getCommander (colors,set) {
+    if (!validCommanderSets.includes(set)) return false;
+    if (!setIndex[set]) return await callCommander(colors,set);
+    let validCommanders = setIndex[set].filter(x=>x.commander);
+    return validCommanders;
+}
 async function callCommanderCards(cid,sets) {
     let setString = sets? ` (${sets.join(' or ')})` : ''
     let queryUrl = `https://api.scryfall.com/cards/search?q=id<=${cid} f:vintage f:commander${setString}`
@@ -140,6 +146,12 @@ async function callCommanderCards(cid,sets) {
     } catch(e) {
         return false;
     }
+}
+async function getCommanderCards(cid,sets) {
+    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderCards(cid,sets);
+    let validCards = []
+    for (let set of sets) validCards.push(...setIndex[set]);
+    return validCards.filter(x=>colorIdentity(x,cid)).sort((a, b) => 0.5 - Math.random());
 }
 async function callCommanderNonLands(cid,sets) {
     let setString = sets? ` (${sets.join(' or ')})` : ''
@@ -151,6 +163,12 @@ async function callCommanderNonLands(cid,sets) {
         return false;
     }
 }
+async function getCommanderNonLands(cid,sets) {
+    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderCards(cid,sets);
+    let validCards = []
+    for (let set of sets) validCards.push(...setIndex[set]);
+    return validCards.filter(x=>colorIdentity(x,cid)&&!isLand(x)).sort((a, b) => 0.5 - Math.random());
+}
 async function callCommanderLands(cid,sets) {
     let setString = sets? ` (${sets.join(' or ')})` : ''
     let queryUrl = `https://api.scryfall.com/cards/search?q=id<=${cid} t:land`
@@ -160,6 +178,12 @@ async function callCommanderLands(cid,sets) {
     } catch(e) {
         return false;
     }
+}
+async function getCommanderLands(cid,sets) {
+    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderCards(cid,sets);
+    let validCards = []
+    for (let set of sets) validCards.push(...setIndex[set]);
+    return validCards.filter(x=>colorIdentity(x,cid)&&isLand(x)).sort((a, b) => 0.5 - Math.random());
 }
 async function delay(ms) {
     return await new Promise(resolve => setTimeout(resolve, ms));
