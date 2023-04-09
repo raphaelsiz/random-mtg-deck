@@ -116,6 +116,8 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
         await delay(50)
     } while (!commander)
 }
+export const Standard = async function({colors="wubrg",illegal=false,sets,random=true}) {}
+export const Modern = async function({colors="wubrg",illegal=false,sets,random=true}) {}
 async function callCommander (colors,set) {
     let commanderUrl =`https://api.scryfall.com/cards/search?q=c<=${colors} is:commander f:commander f:vintage set:${set}`
     let url = encode(commanderUrl) + `&order=${sortMethods[Math.floor(Math.random()*sortMethods.length)]}&dir=${dirs[Math.floor(Math.random()*3)]}`
