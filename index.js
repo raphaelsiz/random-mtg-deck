@@ -37,7 +37,7 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
             let commander = simplify(commanderData);
             let cards;
             if (random) {
-                let cardsData = await getCommanderCards(cid,sets);
+                let cardsData = await getCommanderCards(cid,sets || indexed);
                 if (!cardsData) return Error("Couldn't find enough cards. Please lower your standards.")
                 cards = simplify(cardsData)
                 if (cards.length < 99) {
