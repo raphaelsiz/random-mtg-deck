@@ -164,7 +164,7 @@ async function callCommanderNonLands(cid,sets) {
     }
 }
 async function getCommanderNonLands(cid,sets) {
-    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderCards(cid,sets);
+    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderNonLands(cid,sets);
     let validCards = []
     for (let set of sets) validCards.push(...setIndex[set]);
     return validCards.filter(x=>colorIdentity(x,cid)&&!isLand(x)).sort((a, b) => 0.5 - Math.random());
@@ -180,7 +180,7 @@ async function callCommanderLands(cid,sets) {
     }
 }
 async function getCommanderLands(cid,sets) {
-    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderCards(cid,sets);
+    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderLands(cid,sets);
     let validCards = []
     for (let set of sets) validCards.push(...setIndex[set]);
     return validCards.filter(x=>colorIdentity(x,cid)&&isLand(x)).sort((a, b) => 0.5 - Math.random());
