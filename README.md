@@ -14,3 +14,5 @@ Parameters for `Commander` (all optional, but if you don't pass in any you still
 * `illegal`: This parameter does nothing right now. Eventually, you can set it to true to get a deck that's not commander-legal, as a bit.
 
 Eventually, more deck formats and export formats will be added, and I'll finish adding all possible sets and removing any that you can't get commanders from. MOM will be automatically added (in a hacky way but nonetheless) when it's released.
+
+> Note: currently, you can import and call functions `Standard` and `Modern`. This is because I have ADHD and don't do things in the order that I should. Currently, these functions will not return anything because I have not actually written them yet.
