@@ -26,7 +26,7 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
     let set = validSets[Math.floor(Math.random()*validSets.length)];
     let commanderData;
     do {
-        let data = await callCommander(colors,set);
+        let data = await getCommander(colors,set);
         if (data) {
             commanderData = data[Math.floor(Math.random()*data.length)]
             console.log(commanderData.colors)
@@ -34,7 +34,7 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
             let commander = simplify(commanderData);
             let cards;
             if (random) {
-                let cardsData = await callCommanderCards(cid,sets);
+                let cardsData = await getCommanderCards(cid,sets);
                 if (!cardsData) return Error("Couldn't find enough cards. Please lower your standards.")
                 cards = simplify(cardsData)
                 if (cards.length < 99) {
@@ -47,8 +47,8 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
                 return {commander,cards,exportFile}
             }
             else {
-                let cardsData = await callCommanderNonLands(cid,sets);
-                let landsData = await callCommanderLands(cid,sets);
+                let cardsData = await getCommanderNonLands(cid,sets);
+                let landsData = await getCommanderLands(cid,sets);
                 if (!cardsData) return Error("Couldn't find enough cards. Please lower your standards.");
                 if (!landsData) return Error("Couldn't find enough lands. Please lower your standards.");
                 let nonLands = simplify(cardsData);
