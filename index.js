@@ -270,7 +270,7 @@ async function indexSet() {
             page ++;
             more = JSON.parse(data.data.has_more)
         } catch (e) {
-            console.log(e)
+            console.log(set + " returned an error")
         }
         delay(15)
     } while (more)
