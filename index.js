@@ -206,6 +206,15 @@ function simplify(cards) {
     }
     return {id: cards.id,name: cards.name};
 }
+function colorIdentity(card,cid) {
+    let colors = cid.toUpperCase().split('')
+    for (let color of card.ci) if (!colors.includes(color)) return false;
+    return true;
+}
+function isLand(card) {
+    let type = card.type_line;
+    return (type.toUpperCase().includes("LAND"))
+}
 fs.appendFileSync('./indexes/indexLog.txt',`\n${Date.now().toString()}`)
 //keep this interval and code for future set releases (can comment them out)
 let indexInterval = setInterval(indexSet,250);
