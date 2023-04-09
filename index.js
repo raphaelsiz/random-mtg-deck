@@ -37,7 +37,7 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
             let commander = simplify(commanderData);
             let cards;
             if (random) {
-                let cardsData = await getCommanderCards(cid,sets || indexed);
+                let cardsData = await getCommanderCards(cid,sets);
                 if (!cardsData) return Error("Couldn't find enough cards. Please lower your standards.")
                 cards = simplify(cardsData)
                 if (cards.length < 99) {
@@ -46,18 +46,18 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
                     addBasics(upTo,basics);
                     cards.push(...basics);
                 }
-                makeCuts(99,cards)
+                cards = makeCuts(99,cards)
                 return {commander,cards,exportFile}
             }
             else {
-                let cardsData = await getCommanderNonLands(cid,sets || allPaperSets);
-                let landsData = await getCommanderLands(cid,sets || allPaperSets);
+                let cardsData = await getCommanderNonLands(cid,sets);
+                let landsData = await getCommanderLands(cid,sets);
                 if (!cardsData) return Error("Couldn't find enough cards. Please lower your standards.");
                 if (!landsData) return Error("Couldn't find enough lands. Please lower your standards.");
                 let nonLands = simplify(cardsData);
                 let lands = simplify(landsData);
-                makeCuts(61,nonLands);
-                makeCuts(38,lands);
+                nonLands = makeCuts(61,nonLands);
+                lands = makeCuts(38,lands);
                 addBasics(38,lands);
                 cards = nonLands.concat(lands);
                 return {commander,cards,exportFile}
@@ -83,7 +83,7 @@ export const Commander = async function({colors="wubrg",illegal=false,sets,rando
                     </cockatrice_deck>`
                         fs.writeFileSync(filePath,codStr)
                         break;
-                    default: fs.writeFileSync(filePath,JSON.stringify({commander,cards}))
+                    default: fs.writeFileSync(filePath,JSON.stringify({commander,cards},null,'\t'))
                 }
             }
             function exportString (type="json") {
@@ -146,6 +146,7 @@ async function getCommander (colors,set) {
 async function callCommanderCards(cid,sets) {
     let setString = sets? ` (${sets.join(' or ')})` : ''
     let queryUrl = `https://api.scryfall.com/cards/search?q=id<=${cid} f:vintage f:commander${setString}`
+    console.log(queryUrl)
     try {
         let json = await axios.get(encode(queryUrl) + `&order=${sortMethods[Math.floor(Math.random()*sortMethods.length)]}&dir=${dirs[Math.floor(Math.random()*3)]}`)
         return json.data.data;
@@ -154,9 +155,14 @@ async function callCommanderCards(cid,sets) {
     }
 }
 async function getCommanderCards(cid,sets) {
-    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderCards(cid,sets);
+    if (sets && sets.filter(x=>setIndex[x]).length < sets.length) {
+        let called= await callCommanderCards(cid,sets);
+        console.log(called)
+        return called
+    }
     let validCards = []
-    for (let set of sets) validCards.push(...setIndex[set]);
+    for (let set of sets || indexed) validCards.push(...setIndex[set]);
+    console.log(validCards)
     return validCards.filter(x=>colorIdentity(x,cid)).sort((a, b) => 0.5 - Math.random());
 }
 async function callCommanderNonLands(cid,sets) {
@@ -170,9 +176,9 @@ async function callCommanderNonLands(cid,sets) {
     }
 }
 async function getCommanderNonLands(cid,sets) {
-    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderNonLands(cid,sets);
+    if (sets && sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderNonLands(cid,sets);
     let validCards = []
-    for (let set of sets) validCards.push(...setIndex[set]);
+    for (let set of sets || indexed) validCards.push(...setIndex[set]);
     return validCards.filter(x=>colorIdentity(x,cid)&&!isLand(x)).sort((a, b) => 0.5 - Math.random());
 }
 async function callCommanderLands(cid,sets) {
@@ -186,9 +192,9 @@ async function callCommanderLands(cid,sets) {
     }
 }
 async function getCommanderLands(cid,sets) {
-    if (sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderLands(cid,sets);
+    if (sets && sets.filter(x=>setIndex[x]).length < sets.length) return await callCommanderLands(cid,sets);
     let validCards = []
-    for (let set of sets) validCards.push(...setIndex[set]);
+    for (let set of sets || indexed) validCards.push(...setIndex[set]);
     return validCards.filter(x=>colorIdentity(x,cid)&&isLand(x)).sort((a, b) => 0.5 - Math.random());
 }
 async function delay(ms) {
@@ -198,13 +204,15 @@ function makeCuts (length,array) {
     if (array.length <= length) return;
     if (array.length >= length + 10) {
         let index = Math.floor(Math.random()*(array.length - length))
-        array = array.slice(index,index + length);
-        return
+        console.log(index)
+        array = [...array.slice(index, index+ length)];
+        return array;
     }
     do {
         let i = Math.floor(Math.random()*array.length);
         array.splice(i,1);
     } while (array.length > length);
+    return array;
 }
 function addBasics(length,array) {
     if (array.length >= length) return;
@@ -295,3 +303,6 @@ function loadIndex() {
     }
     setIndex.CON = JSON.parse(fs.readFileSync(`./indexes/CON-set.json`).toString())
 }
+Commander({}).then(c=>{
+    c.exportFile('tests/commander.json')
+})
