@@ -203,7 +203,7 @@ function makeCuts (length,array) {
     }
     do {
         let i = Math.floor(Math.random()*array.length);
-        array.slice(i,1);
+        array.splice(i,1);
     } while (array.length > length);
 }
 function addBasics(length,array) {
