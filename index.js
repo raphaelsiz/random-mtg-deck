@@ -17,7 +17,10 @@ const indexed = ["2XM","NEM","XLN","WWK","AER","HML","DTK","V11","BRO","P3K","C1
 "MMA","DDN","KLD","ELD","PD2","PLC","M21","CM2","TSB","WAR","MM3","ULG","ONS","DOM","MP2","PD3","C13",
 "AVR","DMR","C21","ZEN","MM2","DDU","BRR","MM2","MRD","ALL","ISD","MRD","E01","THB","V17","DMU","M20",
 "CM1","C19","OGW","LRW","OGW","KTK","SCG","MBS","MID","MIR","UND","BBD","UGL","VOC","UST","DDQ","CMR",
-"UNF","MIC","CLB"];
+"UNF","MIC","CLB","2ED","3ED","4ED","5ED","6ED","7ED","8ED","9ED","ARN","ATQ","BRB","BTD","DD2","DDD",
+"DDF","DDG","DDH","DDI","DDJ","DDK","DDM","DDO","DDP","DDR","DKM","DRK","E02","EXP","FEM","GS1","LEA",
+"LEB","M10","M11","M12","M14","MED","MPS","MUL","P02","POR","S00","S99","SS1","SS2","SS3","STA","V09",
+"V12","VIS","w16","w17","CED"];
 const toIndex = allPaperSets.filter(x=> !indexed.includes(x) && x != "MOM");
 const setIndex = {}
 //loadIndex()
